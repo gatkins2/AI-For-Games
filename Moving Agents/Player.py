@@ -15,6 +15,14 @@ class Player:
         self.center = Vector(position.x + (size/2), position.y + (size/2))
         self.color = PLAYER_COLOR
 
+    # Print
+    def __str__(self):
+        printStr = "Player size = " + str(self.size) + "\n"
+        printStr += "Player position = " + str(self.position) + "\n"
+        printStr += "Player velocity = " + str(self.velocity) + "\n"
+        printStr += "Plyaer center = " + str(self.center) + "\n"
+        return printStr
+
     # Draws the enemy to the screen
     def draw(self, screen):
         pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(self.position.x, self.position.y, self.size, self.size))

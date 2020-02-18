@@ -11,15 +11,14 @@ from Constants import *
 
 # Initiate program
 pygame.init()
-screen = pygame.display.set_mode(WORLD_WIDTH, WORLD_HEIGHT)
+screen = pygame.display.set_mode((WORLD_WIDTH, WORLD_HEIGHT))
 done = False
 
 clock = pygame.time.Clock() # Game clock
 
 # Player data
 pos = Vector(PLAYER_START_X, PLAYER_START_Y)
-vel = Vector.zero()
-player = Player(pos, vel, 25)
+player = Player(pos, PLAYER_SIZE, PLAYER_MOVE_SPEED)
 
 
 # Run in a loop

@@ -17,8 +17,8 @@ done = False
 clock = pygame.time.Clock() # Game clock
 
 # Player data
-pos = Vector(300, 30)
-vel = Vector(0, 0)
+pos = Vector(PLAYER_START_X, PLAYER_START_Y)
+vel = Vector.zero()
 player = Player(pos, vel, 25)
 
 
@@ -30,15 +30,17 @@ while not done:
         if event.type == pygame.QUIT:
             done = True
 
-    # Update player
+    # Update agents
     player.update()
 
-    # Draw player
+    # Draw background
     screen.fill(BACKGROUND_COLOR)
+
+    # Draw agents
     player.draw(screen)
 
     # Flip buffer
     pygame.display.flip()
 
     # Tick clock at 60FPS
-    clock.tick(60)
+    clock.tick(FRAME_RATE)

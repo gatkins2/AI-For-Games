@@ -9,6 +9,11 @@ class Vector:
         self.x = x
         self.y = y
 
+    # Return a vector of (0, 0)
+    @staticmethod
+    def zero():
+        return Vector(0, 0)
+
     # Print
     def __str__(self):
         return "Vector(" + str(self.x) + ", " + str(self.y) + ")"

@@ -1,16 +1,19 @@
 import pygame
 from Vector import Vector
+from Constants import *
 
 
 # Class to represent an enemy
 class Player:
 
     # Constructor
-    def __init__(self, position, velocity, size):
+    def __init__(self, position, size, speed):
         self.position = position
-        self.velocity = velocity
         self.size = size
-        self.moveSpeed = 5
+        self.speed = speed
+        self.velocity = Vector.zero()
+        self.center = Vector(position.x + (size/2), position.y + (size/2))
+        self.color = PLAYER_COLOR
 
     # Draws the enemy to the screen
     def draw(self, screen):
@@ -35,4 +38,7 @@ class Player:
         if pressed[pygame.K_d]: self.velocity.x += 1
 
         # Update position from velocity
-        self.position = self.position + self.velocity.normalize().scale(self.moveSpeed)
+        self.position = self.position + self.velocity.normalize().scale(self.speed)
+
+        # Update center
+        self.center = Vector(self.position.x + (self.size / 2), self.position.y + (self.size / 2))

@@ -7,6 +7,7 @@ class Enemy(Agent):
     # Initiate enemy to be following and inactive
     def __init__(self, position, size, speed, color):
         super().__init__(position, size, speed, color)
+        self.vectToPlayer = 0
         self.following = True
         self.active = False
         self.canCollide = True
@@ -34,26 +35,30 @@ class Enemy(Agent):
                 self.following = not self.following
 
         # Calculate the distance to the player
-        distToPlayer = player.center - self.center
+        self.vectToPlayer = player.center - self.center
 
         # Set activity
-        if distToPlayer.length() < ENEMY_ATTACK_RANGE:
+        if self.vectToPlayer.length() < ENEMY_ATTACK_RANGE:
             self.active = True
         else:
             self.active = False
 
         # Set velocity
-        if self.active:
-            if self.following:
-                self.velocity = distToPlayer.normalize()
-            else:
-                self.velocity = -distToPlayer.normalize()
-        else:
-            self.velocity = Vector.zero()
+        self.calculateVelocity()
         self.velocity = self.velocity.normalize()
 
         # Move
         super().update()
+
+    # Calculate enemy velocity
+    def calculateVelocity(self):
+        if self.active:
+            if self.following:
+                self.velocity = self.vectToPlayer.normalize()
+            else:
+                self.velocity = -self.vectToPlayer.normalize()
+        else:
+            self.velocity = Vector.zero()
 
     # Draw enemy target line
     def draw(self, screen, player):
@@ -64,9 +69,13 @@ class Enemy(Agent):
         else:
             self.color = ENEMY_COLOR
 
-        # If following the player
+        # If following the player, draw attack line
         if self.following and self.active:
-            pygame.draw.line(screen, RED, self.center.tuple(), player.center.tuple(), 3)
+            self.drawAttackLine(screen, player)
 
         # Call parent draw
         super().draw(screen)
+
+    # Draw the line where the enemy is attacking
+    def drawAttackLine(self, screen, player):
+        pygame.draw.line(screen, RED, self.center.tuple(), player.center.tuple(), 3)

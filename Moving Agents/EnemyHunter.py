@@ -8,11 +8,15 @@ class EnemyHunter(Enemy):
         if self.active:
             distToPlayer = (player.center - self.center).length()
             if self.following:
+
+                # Set velocity towards where the player will be
                 timeToReach = distToPlayer / self.speed
                 playerPosAtTime = player.center + player.velocity.scale(player.speed * timeToReach)
                 self.target = playerPosAtTime.tuple()
                 self.velocity = (playerPosAtTime - self.center).normalize()
             else:
+
+                # Set velocity away from where the player will be
                 timeToReach = distToPlayer / player.speed
                 playerPosAtTime = player.center + player.velocity.scale(player.speed * timeToReach)
                 self.velocity = -(playerPosAtTime - self.center).normalize()

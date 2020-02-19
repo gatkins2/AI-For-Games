@@ -1,7 +1,7 @@
 from Agent import *
 
 
-# Class to represent an enemy
+# Class to represent the player
 class Player(Agent):
 
     # Updates the player's position based on its velocity

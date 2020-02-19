@@ -3,6 +3,7 @@ from Vector import Vector
 from Constants import *
 
 
+# Class to represent any moving agents
 class Agent:
 
     # Constructor

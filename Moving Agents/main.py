@@ -18,7 +18,7 @@ clock = pygame.time.Clock() # Game clock
 
 # Player data
 pos = Vector(PLAYER_START_X, PLAYER_START_Y)
-player = Player(pos, PLAYER_SIZE, PLAYER_MOVE_SPEED)
+player = Player(pos, PLAYER_SIZE, PLAYER_MOVE_SPEED, PLAYER_COLOR)
 
 
 # Run in a loop

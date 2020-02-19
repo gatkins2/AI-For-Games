@@ -1,7 +1,7 @@
 """
 Galen Atkinson
 GDD 3400
-HW - Intro to PyGame
+HW - Moving Agents
 """
 
 import pygame, random

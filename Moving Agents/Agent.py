@@ -14,6 +14,7 @@ class Agent:
         self.velocity = Vector.zero()
         self.center = Vector(position.x + (size / 2), position.y + (size / 2))
         self.color = color
+        self.initialColor = color
         self.rect = pygame.Rect(position.x, position.y, size, size)
 
     # Print

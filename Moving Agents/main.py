@@ -8,6 +8,7 @@ import pygame
 from Vector import Vector
 from Player import Player
 from Enemy import Enemy
+from EnemyHunter import EnemyHunter
 from Constants import *
 
 # Initiate program
@@ -23,7 +24,7 @@ player = Player(pos, PLAYER_SIZE, PLAYER_MOVE_SPEED, PLAYER_COLOR)
 
 # Enemy data
 pos = Vector(ENEMY_START_X, ENEMY_START_Y)
-enemy = Enemy(pos, ENEMY_SIZE, ENEMY_MOVE_SPEED, ENEMY_COLOR)
+enemy = EnemyHunter(pos, ENEMY_SIZE, ENEMY_MOVE_SPEED, ENEMY_HUNTER_COLOR)
 
 
 # Run in a loop

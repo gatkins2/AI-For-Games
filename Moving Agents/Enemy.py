@@ -8,6 +8,7 @@ class Enemy(Agent):
     def __init__(self, position, size, speed, color):
         super().__init__(position, size, speed, color)
         self.vectToPlayer = 0
+        self.target = (0, 0)
         self.following = True
         self.active = False
         self.canCollide = True
@@ -44,14 +45,15 @@ class Enemy(Agent):
             self.active = False
 
         # Set velocity
-        self.calculateVelocity()
+        self.calculateVelocity(player)
         self.velocity = self.velocity.normalize()
 
         # Move
         super().update()
 
     # Calculate enemy velocity
-    def calculateVelocity(self):
+    def calculateVelocity(self, player):
+        self.target = player.center.tuple()
         if self.active:
             if self.following:
                 self.velocity = self.vectToPlayer.normalize()
@@ -60,22 +62,18 @@ class Enemy(Agent):
         else:
             self.velocity = Vector.zero()
 
-    # Draw enemy target line
+    # Draw enemy
     def draw(self, screen, player):
 
         # Flash white if can't collide
         if not self.canCollide and self.flashTimer <= ENEMY_FLASH_TIMEOUT / 2:
             self.color = WHITE
         else:
-            self.color = ENEMY_COLOR
+            self.color = self.initialColor
 
         # If following the player, draw attack line
         if self.following and self.active:
-            self.drawAttackLine(screen, player)
+            pygame.draw.line(screen, RED, self.center.tuple(), self.target, 3)
 
         # Call parent draw
         super().draw(screen)
-
-    # Draw the line where the enemy is attacking
-    def drawAttackLine(self, screen, player):
-        pygame.draw.line(screen, RED, self.center.tuple(), player.center.tuple(), 3)

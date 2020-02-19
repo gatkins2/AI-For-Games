@@ -14,6 +14,10 @@ class Vector:
     def zero():
         return Vector(0, 0)
 
+    # Tuple form
+    def tuple(self):
+        return (self.x, self.y)
+
     # Print
     def __str__(self):
         return "Vector(" + str(self.x) + ", " + str(self.y) + ")"

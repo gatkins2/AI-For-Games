@@ -23,14 +23,12 @@ class Player:
         printStr += "Plyaer center = " + str(self.center) + "\n"
         return printStr
 
-    # Draws the enemy to the screen
+    # Draws the agent to the screen
     def draw(self, screen):
-        pygame.draw.rect(screen, (255, 0, 0), pygame.Rect(self.position.x, self.position.y, self.size, self.size))
-        startX = self.position.x + (self.size / 2)
-        startY = self.position.y + (self.size / 2)
-        endX = startX + (self.velocity.normalize().x * self.size)
-        endY = startY + (self.velocity.normalize().y * self.size)
-        pygame.draw.line(screen, (255, 255, 255), (startX, startY), (endX, endY), 3)
+        pygame.draw.rect(screen, self.color, pygame.Rect(self.position.x, self.position.y, self.size, self.size))
+        endX = self.center.x + (self.velocity.normalize().x * self.size)
+        endY = self.center.y + (self.velocity.normalize().y * self.size)
+        pygame.draw.line(screen, BLUE, self.center.tuple(), (endX, endY), 3)
 
     # Updates the enemy's position based on its velocity
     def update(self):

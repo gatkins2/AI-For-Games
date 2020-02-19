@@ -16,6 +16,7 @@ class Player(Agent):
         if pressed[pygame.K_s]: self.velocity.y += 1
         if pressed[pygame.K_a]: self.velocity.x -= 1
         if pressed[pygame.K_d]: self.velocity.x += 1
+        self.velocity = self.velocity.normalize()
 
         # Move
         super().update()

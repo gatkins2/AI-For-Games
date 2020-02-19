@@ -33,6 +33,9 @@ class Vector:
         y = self.y - other.y
         return Vector(x, y)
 
+    def __neg__(self):
+        return Vector(-self.x, -self.y)
+
     # Return the dot product of two vectors
     def dot(self, other):
         xProd = self.x * other.x

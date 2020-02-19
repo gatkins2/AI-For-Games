@@ -43,7 +43,7 @@ while not done:
 
     # Draw agents
     player.draw(screen)
-    enemy.draw(screen)
+    enemy.draw(screen, player)
 
     # Flip buffer
     pygame.display.flip()

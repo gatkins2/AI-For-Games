@@ -1,14 +1,13 @@
 """
 Galen Atkinson
 GDD 3400
-HW - Moving Agents
+HW - Sheep Herding
 """
 
 import pygame, random
 from Vector import Vector
-from Player import Player
-from Enemy import Enemy
-from EnemyHunter import EnemyHunter
+from Player import Dog
+from Sheep import Sheep
 from Constants import *
 
 # Initiate program
@@ -16,22 +15,18 @@ pygame.init()
 screen = pygame.display.set_mode((WORLD_WIDTH, WORLD_HEIGHT))
 done = False
 
-clock = pygame.time.Clock() # Game clock
+clock = pygame.time.Clock()     # Game clock
 
 # Player data
 pos = Vector(PLAYER_START_X, PLAYER_START_Y)
-player = Player(pos, PLAYER_SIZE, PLAYER_MOVE_SPEED, PLAYER_COLOR)
+player = Dog(pos, PLAYER_SIZE, PLAYER_MOVE_SPEED, PLAYER_COLOR)
 
-# Enemy data
-enemies = []
-for i in range(5):
+# Sheep data
+sheeps = []
+for i in range(10):
     pos = Vector(random.randint(0, WORLD_WIDTH - ENEMY_SIZE), random.randint(0, WORLD_HEIGHT - ENEMY_SIZE))
-    enemy = Enemy(pos, ENEMY_SIZE, ENEMY_MOVE_SPEED, ENEMY_COLOR)
-    enemies.append(enemy)
-for i in range(5):
-    pos = Vector(random.randint(0, WORLD_WIDTH - ENEMY_SIZE), random.randint(0, WORLD_HEIGHT - ENEMY_SIZE))
-    enemy = EnemyHunter(pos, ENEMY_SIZE, ENEMY_MOVE_SPEED, ENEMY_HUNTER_COLOR)
-    enemies.append(enemy)
+    sheep = Sheep(pos, ENEMY_SIZE, ENEMY_MOVE_SPEED, ENEMY_COLOR)
+    sheeps.append(sheep)
 
 # Run in a loop
 while not done:
@@ -43,16 +38,16 @@ while not done:
 
     # Update agents
     player.update()
-    for enemy in enemies:
-        enemy.update(player)
+    for sheep in sheeps:
+        sheep.update(player)
 
     # Draw background
     screen.fill(BACKGROUND_COLOR)
 
     # Draw agents
     player.draw(screen)
-    for enemy in enemies:
-        enemy.draw(screen, player)
+    for sheep in sheeps:
+        sheep.draw(screen, player)
 
     # Flip buffer
     pygame.display.flip()

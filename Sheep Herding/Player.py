@@ -2,7 +2,7 @@ from Agent import *
 
 
 # Class to represent the player
-class Player(Agent):
+class Dog(Agent):
 
     # Updates the player's position based on its velocity
     def update(self):

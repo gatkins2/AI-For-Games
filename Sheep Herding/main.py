@@ -6,7 +6,7 @@ HW - Sheep Herding
 
 import pygame, random
 from Vector import Vector
-from Player import Dog
+from Dog import Dog
 from Sheep import Sheep
 from Constants import *
 
@@ -18,16 +18,16 @@ done = False
 clock = pygame.time.Clock()     # Game clock
 
 # Dog data
-pos = Vector(PLAYER_START_X, PLAYER_START_Y)
+pos = Vector(DOG_START_X, DOG_START_Y)
 dogSurface = pygame.image.load('collie.png')
-dog = Dog(pos, PLAYER_SIZE, PLAYER_MOVE_SPEED, dogSurface)
+dog = Dog(pos, DOG_WIDTH, DOG_HEIGHT, DOG_MOVE_SPEED, dogSurface)
 
 # Sheep data
 sheeps = []
 sheepSurface = pygame.image.load('sheep.png')
 for i in range(10):
-    pos = Vector(random.randint(0, WORLD_WIDTH - ENEMY_SIZE), random.randint(0, WORLD_HEIGHT - ENEMY_SIZE))
-    sheep = Sheep(pos, ENEMY_SIZE, ENEMY_MOVE_SPEED, sheepSurface)
+    pos = Vector(random.randint(0, WORLD_WIDTH - SHEEP_WIDTH), random.randint(0, WORLD_HEIGHT - SHEEP_HEIGHT))
+    sheep = Sheep(pos, SHEEP_WIDTH, SHEEP_HEIGHT, SHEEP_MOVE_SPEED, sheepSurface)
     sheeps.append(sheep)
 
 # Run in a loop

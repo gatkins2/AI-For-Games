@@ -5,8 +5,8 @@ from Agent import *
 class Sheep(Agent):
 
     # Initiate sheep to be following and inactive
-    def __init__(self, position, size, speed, surface):
-        super().__init__(position, size, speed, surface)
+    def __init__(self, position, width, height, speed, surface):
+        super().__init__(position, width, height, speed, surface)
         self.vectToPlayer = Vector.zero()
         self.target = (0, 0)
         self.active = False
@@ -18,7 +18,7 @@ class Sheep(Agent):
         self.vectToPlayer = player.center - self.center
 
         # Set activity
-        if self.vectToPlayer.length() < ENEMY_ATTACK_RANGE:
+        if self.vectToPlayer.length() < SHEEP_ATTACK_RANGE:
             self.active = True
         else:
             self.active = False

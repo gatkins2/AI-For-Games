@@ -1,4 +1,4 @@
-import pygame
+import pygame, random
 from Vector import Vector
 from Constants import *
 
@@ -12,7 +12,7 @@ class Agent:
         self.width = width
         self.height = height
         self.speed = speed
-        self.velocity = Vector.zero()
+        self.velocity = Vector(random.uniform(-1, 1), random.uniform(-1, 1))
         self.center = Vector(position.x + (width / 2), position.y + (height / 2))
         self.surface = surface
         self.rect = pygame.Rect(position.x, position.y, width, height)

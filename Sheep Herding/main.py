@@ -17,15 +17,17 @@ done = False
 
 clock = pygame.time.Clock()     # Game clock
 
-# Player data
+# Dog data
 pos = Vector(PLAYER_START_X, PLAYER_START_Y)
-player = Dog(pos, PLAYER_SIZE, PLAYER_MOVE_SPEED, PLAYER_COLOR)
+dogSurface = pygame.image.load('collie.png')
+dog = Dog(pos, PLAYER_SIZE, PLAYER_MOVE_SPEED, dogSurface)
 
 # Sheep data
 sheeps = []
+sheepSurface = pygame.image.load('sheep.png')
 for i in range(10):
     pos = Vector(random.randint(0, WORLD_WIDTH - ENEMY_SIZE), random.randint(0, WORLD_HEIGHT - ENEMY_SIZE))
-    sheep = Sheep(pos, ENEMY_SIZE, ENEMY_MOVE_SPEED, ENEMY_COLOR)
+    sheep = Sheep(pos, ENEMY_SIZE, ENEMY_MOVE_SPEED, sheepSurface)
     sheeps.append(sheep)
 
 # Run in a loop
@@ -37,17 +39,16 @@ while not done:
             done = True
 
     # Update agents
-    player.update()
+    dog.update()
     for sheep in sheeps:
-        sheep.update(player)
-
+        sheep.update(dog)
     # Draw background
     screen.fill(BACKGROUND_COLOR)
 
     # Draw agents
-    player.draw(screen)
+    dog.draw(screen)
     for sheep in sheeps:
-        sheep.draw(screen, player)
+        sheep.draw(screen, dog)
 
     # Flip buffer
     pygame.display.flip()

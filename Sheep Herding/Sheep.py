@@ -5,8 +5,8 @@ from Agent import *
 class Sheep(Agent):
 
     # Initiate sheep to be following and inactive
-    def __init__(self, position, size, speed, color):
-        super().__init__(position, size, speed, color)
+    def __init__(self, position, size, speed, surface):
+        super().__init__(position, size, speed, surface)
         self.vectToPlayer = Vector.zero()
         self.target = (0, 0)
         self.active = False

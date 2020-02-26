@@ -7,14 +7,13 @@ from Constants import *
 class Agent:
 
     # Constructor
-    def __init__(self, position, size, speed, color):
+    def __init__(self, position, size, speed, surface):
         self.position = position
         self.size = size
         self.speed = speed
         self.velocity = Vector.zero()
         self.center = Vector(position.x + (size / 2), position.y + (size / 2))
-        self.color = color
-        self.initialColor = color
+        self.surface = surface
         self.rect = pygame.Rect(position.x, position.y, size, size)
 
     # Print
@@ -27,7 +26,7 @@ class Agent:
 
     # Draws the agent to the screen
     def draw(self, screen):
-        pygame.draw.rect(screen, self.color, self.rect)
+        screen.blit(self.surface, [self.position.x, self.position.y])
         endX = self.center.x + (self.velocity.normalize().x * self.size)
         endY = self.center.y + (self.velocity.normalize().y * self.size)
         pygame.draw.line(screen, BLUE, self.center.tuple(), (endX, endY), 3)

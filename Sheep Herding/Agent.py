@@ -15,6 +15,7 @@ class Agent:
         self.velocity = Vector(0, -1)
         self.lookDirection = math.degrees(math.atan2(-self.velocity.y, self.velocity.x))
         self.center = Vector(position.x + (width / 2), position.y + (height / 2))
+        self.startSurface = surface
         self.surface = surface
         self.rect = pygame.Rect(position.x, position.y, width, height)
 
@@ -44,10 +45,8 @@ class Agent:
         self.clampPosition()
 
         # Update surface
-        oldDirection = self.lookDirection
         self.lookDirection = math.degrees(math.atan2(-self.velocity.y, self.velocity.x))
-        if oldDirection != self.lookDirection:
-            self.surface = pygame.transform.rotate(self.surface, self.lookDirection - oldDirection)
+        self.surface = pygame.transform.rotate(self.startSurface, self.lookDirection - 90)
 
         # Update center
         self.center = Vector(self.position.x + (self.width / 2), self.position.y + (self.height / 2))

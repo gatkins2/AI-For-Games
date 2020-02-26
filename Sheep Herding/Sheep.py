@@ -25,7 +25,6 @@ class Sheep(Agent):
 
         # Set velocity
         self.calculateVelocity(player)
-        self.velocity = self.velocity.normalize()
 
         # Move
         super().update()
@@ -35,8 +34,9 @@ class Sheep(Agent):
         self.target = player.center.tuple()
         if self.active:
             self.velocity = -self.vectToPlayer.normalize()
+            self.speed = SHEEP_MOVE_SPEED
         else:
-            self.velocity = Vector.zero()
+            self.speed = 0
 
     # Draw sheep
     def draw(self, screen, player):

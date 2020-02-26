@@ -1,4 +1,4 @@
-import pygame, random
+import pygame, random, math
 from Vector import Vector
 from Constants import *
 
@@ -12,7 +12,8 @@ class Agent:
         self.width = width
         self.height = height
         self.speed = speed
-        self.velocity = Vector(random.uniform(-1, 1), random.uniform(-1, 1))
+        self.velocity = Vector(0, -1)
+        self.lookDirection = math.degrees(math.atan2(-self.velocity.y, self.velocity.x))
         self.center = Vector(position.x + (width / 2), position.y + (height / 2))
         self.surface = surface
         self.rect = pygame.Rect(position.x, position.y, width, height)
@@ -37,10 +38,16 @@ class Agent:
     def update(self):
 
         # Update position from velocity
-        self.position = self.position + self.velocity.scale(self.speed)
+        self.position += self.velocity.scale(self.speed)
 
         # Clamp position
         self.clampPosition()
+
+        # Update surface
+        oldDirection = self.lookDirection
+        self.lookDirection = math.degrees(math.atan2(-self.velocity.y, self.velocity.x))
+        if oldDirection != self.lookDirection:
+            self.surface = pygame.transform.rotate(self.surface, self.lookDirection - oldDirection)
 
         # Update center
         self.center = Vector(self.position.x + (self.width / 2), self.position.y + (self.height / 2))
@@ -65,6 +72,7 @@ class Agent:
 
     # Check collision with another agent
     def collision(self, other):
+
         if self.rect.colliderect(other.rect):
             return True
         else:

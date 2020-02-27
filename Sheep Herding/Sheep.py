@@ -53,12 +53,14 @@ class Sheep(Agent):
         if Constants.BOUNDARY_FORCES: boundaries = self.getBoundaryForce()
         if Constants.DOG_FORCES: dog = self.getDogForce(player)
 
+        # Sum forces
         forces = alignment.scale(Constants.ALIGNMENT_WEIGHT) \
                  + cohesion.scale(Constants.COHESION_WEIGHT) \
                  + separation.scale(Constants.SEPARATION_WEIGHT) \
                  + boundaries.scale(Constants.BOUNDARY_WEIGHT) \
                  + dog.scale(Constants.DOG_WEIGHT)
 
+        # Normalize and set velocity
         if forces.length() != 0:
             self.velocity = forces.normalize()
 
@@ -151,4 +153,9 @@ class Sheep(Agent):
 
     # Calculate sheep's dog force
     def getDogForce(self, player):
-        pass
+
+        velocity = Vector.zero()
+        if (self.center - player.center).length() <= Constants.SHEEP_ATTACK_RANGE:
+            velocity = -self.vectToPlayer.normalize()
+
+        return velocity

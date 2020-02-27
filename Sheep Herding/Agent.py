@@ -70,14 +70,14 @@ class Agent:
         # clamp X
         if self.position.x < 0:
             self.position.x = 0
-        elif self.position.x + self.width > Constants.WORLD_WIDTH:
-            self.position.x = Constants.WORLD_WIDTH - self.width
+        elif self.position.x + self.surface.get_width() > Constants.WORLD_WIDTH:
+            self.position.x = Constants.WORLD_WIDTH - self.surface.get_width()
 
         # Clamp Y
         if self.position.y < 0:
             self.position.y = 0
-        elif self.position.y + self.height > Constants.WORLD_HEIGHT:
-            self.position.y = Constants.WORLD_HEIGHT - self.height
+        elif self.position.y + self.surface.get_height() > Constants.WORLD_HEIGHT:
+            self.position.y = Constants.WORLD_HEIGHT - self.surface.get_height()
 
     # Check collision with another agent
     def collision(self, other):

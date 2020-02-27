@@ -18,14 +18,14 @@ done = False
 clock = pygame.time.Clock()     # Game clock
 
 # Dog data
-pos = Vector(Constants.DOG_START_X, Constants.DOG_START_Y)
+pos = pos = Vector(random.randint(0, Constants.WORLD_WIDTH - Constants.SHEEP_WIDTH), random.randint(0, Constants.WORLD_HEIGHT - Constants.SHEEP_HEIGHT))
 dogSurface = pygame.image.load('collie.png')
 dog = Dog(pos, Constants.DOG_MOVE_SPEED, dogSurface)
 
 # Sheep data
 sheeps = []
 sheepSurface = pygame.image.load('sheep.png')
-for i in range(50):
+for i in range(100):
     pos = Vector(random.randint(0, Constants.WORLD_WIDTH - Constants.SHEEP_WIDTH), random.randint(0, Constants.WORLD_HEIGHT - Constants.SHEEP_HEIGHT))
     sheep = Sheep(pos, Constants.SHEEP_MOVE_SPEED, sheepSurface)
     sheeps.append(sheep)

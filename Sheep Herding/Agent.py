@@ -7,12 +7,10 @@ import Constants
 class Agent:
 
     # Constructor
-    def __init__(self, position, width, height, speed, surface):
+    def __init__(self, position, speed, surface):
         self.position = position
-        self.width = width
-        self.height = height
         self.speed = speed
-        self.velocity = Vector(0, -1)
+        self.velocity = Vector(random.uniform(-1, 1), random.uniform(-1, 1))
         self.lookDirection = math.degrees(math.atan2(-self.velocity.y, self.velocity.x))
         self.startSurface = surface
         self.surface = surface
@@ -21,8 +19,8 @@ class Agent:
 
     # Print
     def __str__(self):
-        printStr = str(type(self)) + " width = " + str(self.width) + "\n"
-        printStr = str(type(self)) + " height = " + str(self.height) + "\n"
+        printStr = str(type(self)) + " width = " + str(self.surface.get_width()) + "\n"
+        printStr = str(type(self)) + " height = " + str(self.surface.get_height()) + "\n"
         printStr += str(type(self)) + " position = " + str(self.position) + "\n"
         printStr += str(type(self)) + " velocity = " + str(self.velocity) + "\n"
         printStr += str(type(self)) + " center = " + str(self.center) + "\n"
@@ -40,8 +38,8 @@ class Agent:
 
         # Draw velocity line
         if Constants.VELOCITY_LINES:
-            endX = self.center.x + (self.velocity.normalize().x * max(self.height, self.width))
-            endY = self.center.y + (self.velocity.normalize().y * max(self.height, self.width))
+            endX = self.center.x + (self.velocity.normalize().x * max(self.surface.get_height(), self.surface.get_width()))
+            endY = self.center.y + (self.velocity.normalize().y * max(self.surface.get_height(), self.surface.get_width()))
             pygame.draw.line(screen, Constants.BLUE, self.center.tuple(), (endX, endY), 3)
 
     # Update the agent

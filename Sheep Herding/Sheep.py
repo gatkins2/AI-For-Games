@@ -132,7 +132,22 @@ class Sheep(Agent):
 
     # Calculate sheep's boundary force
     def getBoundaryForce(self):
-        pass
+
+        velocity = Vector.zero()
+
+        # Top/bottom boundary
+        if self.center.y - Constants.SHEEP_BOUNDARY_RADIUS <= 0:
+            velocity.y = 1
+        elif self.center.y + Constants.SHEEP_BOUNDARY_RADIUS >= Constants.WORLD_HEIGHT:
+            velocity.y = -1
+
+        # Left/right boundary
+        if self.center.x - Constants.SHEEP_BOUNDARY_RADIUS <= 0:
+            velocity.x = 1
+        elif self.center.x + Constants.SHEEP_BOUNDARY_RADIUS >= Constants.WORLD_WIDTH:
+            velocity.x = -1
+
+        return velocity.normalize()
 
     # Calculate sheep's dog force
     def getDogForce(self, player):

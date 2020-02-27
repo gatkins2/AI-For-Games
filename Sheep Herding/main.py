@@ -65,7 +65,6 @@ while not done:
             elif event.key == pygame.K_0:
                 Constants.BOUNDARY_FORCES = not Constants.BOUNDARY_FORCES
 
-
     # Update agents
     dog.update()
     for sheep in sheeps:

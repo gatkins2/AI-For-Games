@@ -39,7 +39,7 @@ class Agent:
             pygame.draw.rect(screen, Constants.BLACK, self.rect, 2)
 
         # Draw velocity line
-        if Constants.SHEEP_VELOCITY_LINES:
+        if Constants.VELOCITY_LINES:
             endX = self.center.x + (self.velocity.normalize().x * max(self.height, self.width))
             endY = self.center.y + (self.velocity.normalize().y * max(self.height, self.width))
             pygame.draw.line(screen, Constants.BLUE, self.center.tuple(), (endX, endY), 3)

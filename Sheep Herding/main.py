@@ -41,13 +41,13 @@ while not done:
         # Set toggles
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_1:
-                Constants.SHEEP_VELOCITY_LINES = not Constants.SHEEP_VELOCITY_LINES
+                Constants.VELOCITY_LINES = not Constants.VELOCITY_LINES
             elif event.key == pygame.K_2:
                 Constants.DOG_FORCE_LINES = not Constants.DOG_FORCE_LINES
             elif event.key == pygame.K_3:
                 Constants.BOUNDARY_FORCE_LINES = not Constants.BOUNDARY_FORCE_LINES
             elif event.key == pygame.K_4:
-                Constants.NEIGHBOR_LINES = not Constants.NEIGHBOR_LINES
+                Constants.NEIGHBOR_FORCE_LINES = not Constants.NEIGHBOR_FORCE_LINES
             elif event.key == pygame.K_5:
                 Constants.BOUNDING_BOXES = not Constants.BOUNDING_BOXES
             elif event.key == pygame.K_6:

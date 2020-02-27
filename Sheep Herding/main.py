@@ -25,7 +25,7 @@ dog = Dog(pos, Constants.DOG_MOVE_SPEED, dogSurface)
 # Sheep data
 sheeps = []
 sheepSurface = pygame.image.load('sheep.png')
-for i in range(10):
+for i in range(50):
     pos = Vector(random.randint(0, Constants.WORLD_WIDTH - Constants.SHEEP_WIDTH), random.randint(0, Constants.WORLD_HEIGHT - Constants.SHEEP_HEIGHT))
     sheep = Sheep(pos, Constants.SHEEP_MOVE_SPEED, sheepSurface)
     sheeps.append(sheep)
@@ -60,24 +60,28 @@ while not done:
                     Constants.CURRENT_DOG_WEIGHT = Constants.DEFAULT_DOG_WEIGHT
                 else:
                     Constants.CURRENT_DOG_WEIGHT = 0
+
             elif event.key == pygame.K_7:
                 Constants.ALIGNMENT_FORCES = not Constants.ALIGNMENT_FORCES
                 if Constants.ALIGNMENT_FORCES:
                     Constants.CURRENT_ALIGNMENT_WEIGHT = Constants.DEFAULT_ALIGNMENT_WEIGHT
                 else:
                     Constants.CURRENT_ALIGNMENT_WEIGHT = 0
+
             elif event.key == pygame.K_8:
                 Constants.SEPARATION_FORCES = not Constants.SEPARATION_FORCES
                 if Constants.SEPARATION_FORCES:
                     Constants.CURRENT_SEPARATION_WEIGHT = Constants.DEFAULT_SEPARATION_WEIGHT
                 else:
                     Constants.CURRENT_SEPARATION_WEIGHT = 0
+
             elif event.key == pygame.K_9:
                 Constants.COHESION_FORCES = not Constants.COHESION_FORCES
                 if Constants.COHESION_FORCES:
                     Constants.CURRENT_COHESION_WEIGHT = Constants.DEFAULT_COHESION_WEIGHT
                 else:
                     Constants.CURRENT_COHESION_WEIGHT = 0
+
             elif event.key == pygame.K_0:
                 Constants.BOUNDARY_FORCES = not Constants.BOUNDARY_FORCES
                 if Constants.BOUNDARY_FORCES:

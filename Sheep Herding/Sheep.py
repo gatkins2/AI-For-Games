@@ -40,12 +40,12 @@ class Sheep(Agent):
 
         # Get forces
         alignment = self.getAlignmentForce()
+        cohesion = self.getCohesionForce()
 
-        forces = alignment.scale(Constants.CURRENT_ALIGNMENT_WEIGHT)
+        forces = alignment.scale(Constants.CURRENT_ALIGNMENT_WEIGHT) + cohesion.scale(Constants.CURRENT_COHESION_WEIGHT)
 
         if forces.length() != 0:
             self.velocity = forces.normalize()
-
 
     # Find sheep that are neighbors to this one
     def calculateNeighbors(self, herd):
@@ -70,5 +70,26 @@ class Sheep(Agent):
         # Divide by number of neighbors
         velocity.x /= len(self.neighbors)
         velocity.y /= len(self.neighbors)
+
+        return velocity.normalize()
+
+    # Calculate sheep's cohesion force
+    def getCohesionForce(self):
+
+        # If no neighbors
+        if len(self.neighbors) <= 0:
+            return self.velocity.normalize()
+
+        # Add neighbor positions
+        centerOfMass= self.velocity
+        for sheep in self.neighbors:
+            centerOfMass += sheep.position
+
+        # Divide by number of neighbors
+        centerOfMass.x /= len(self.neighbors)
+        centerOfMass.y /= len(self.neighbors)
+
+        # Find direction vector toward center of mass
+        velocity = centerOfMass - self.position
 
         return velocity.normalize()

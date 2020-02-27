@@ -16,6 +16,7 @@ class Sheep(Agent):
 
         # Calculate the distance to the player
         self.vectToPlayer = player.center - self.center
+        self.target = player.center.tuple()
 
         # Calculate current neighbors
         self.neighbors = self.calculateNeighbors(herd)
@@ -28,9 +29,15 @@ class Sheep(Agent):
 
     # Draw sheep
     def draw(self, screen, player):
-        # If following the player, draw attack line
-        if self.vectToPlayer.length() <= Constants.SHEEP_ATTACK_RANGE:
-            pygame.draw.line(screen, Constants.RED, self.center.tuple(), self.target, 3)
+
+        # If near the player, draw attack line
+        if Constants.ATTACK_LINES and self.vectToPlayer.length() <= Constants.SHEEP_ATTACK_RANGE:
+            pygame.draw.line(screen, Constants.RED, self.center.tuple(), self.target, Constants.LINE_WIDTH)
+
+        # Draw lines to neighbors
+        if Constants.NEIGHBOR_LINES:
+            for sheep in self.neighbors:
+                pygame.draw.line(screen, Constants.BLUE, self.center.tuple(), sheep.center.tuple(), Constants.LINE_WIDTH)
 
         # Call parent draw
         super().draw(screen)
@@ -39,10 +46,18 @@ class Sheep(Agent):
     def calculateVelocity(self, player):
 
         # Get forces
-        alignment = self.getAlignmentForce()
-        cohesion = self.getCohesionForce()
+        alignment = cohesion = separation = boundaries = dog = Vector.zero()
+        if Constants.ALIGNMENT_FORCES: alignment = self.getAlignmentForce()
+        if Constants.COHESION_FORCES: cohesion = self.getCohesionForce()
+        if Constants.SEPARATION_FORCES: separation = self.getSeparationForce()
+        if Constants.BOUNDARY_FORCES: boundaries = self.getBoundaryForce()
+        if Constants.DOG_FORCES: dog = self.getDogForce(player)
 
-        forces = alignment.scale(Constants.CURRENT_ALIGNMENT_WEIGHT) + cohesion.scale(Constants.CURRENT_COHESION_WEIGHT)
+        forces = alignment.scale(Constants.ALIGNMENT_WEIGHT) \
+                 + cohesion.scale(Constants.COHESION_WEIGHT) \
+                 + separation.scale(Constants.SEPARATION_WEIGHT) \
+                 + boundaries.scale(Constants.BOUNDARY_WEIGHT) \
+                 + dog.scale(Constants.DOG_WEIGHT)
 
         if forces.length() != 0:
             self.velocity = forces.normalize()
@@ -93,3 +108,32 @@ class Sheep(Agent):
         velocity = centerOfMass - self.position
 
         return velocity.normalize()
+
+    # Calculate sheep's separation force
+    def getSeparationForce(self):
+
+        # If no neighbors
+        if len(self.neighbors) <= 0:
+            return self.velocity.normalize()
+
+        # Add difference between neighbor positions
+        velocity = self.velocity
+        for sheep in self.neighbors:
+            velocity += sheep.position - self.position
+
+        # Divide by number of neighbors
+        velocity.x /= len(self.neighbors)
+        velocity.y /= len(self.neighbors)
+
+        # Negate vector
+        velocity = -velocity.normalize()
+
+        return velocity
+
+    # Calculate sheep's boundary force
+    def getBoundaryForce(self):
+        pass
+
+    # Calculate sheep's dog force
+    def getDogForce(self, player):
+        pass

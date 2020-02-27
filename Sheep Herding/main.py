@@ -45,49 +45,25 @@ while not done:
             if event.key == pygame.K_1:
                 Constants.VELOCITY_LINES = not Constants.VELOCITY_LINES
             elif event.key == pygame.K_2:
-                Constants.DOG_FORCE_LINES = not Constants.DOG_FORCE_LINES
+                Constants.ATTACK_LINES = not Constants.ATTACK_LINES
             elif event.key == pygame.K_3:
                 Constants.BOUNDARY_FORCE_LINES = not Constants.BOUNDARY_FORCE_LINES
             elif event.key == pygame.K_4:
-                Constants.NEIGHBOR_FORCE_LINES = not Constants.NEIGHBOR_FORCE_LINES
+                Constants.NEIGHBOR_LINES = not Constants.NEIGHBOR_LINES
             elif event.key == pygame.K_5:
                 Constants.BOUNDING_BOXES = not Constants.BOUNDING_BOXES
 
             # Force toggles
             elif event.key == pygame.K_6:
                 Constants.DOG_FORCES = not Constants.DOG_FORCES
-                if Constants.DOG_FORCES:
-                    Constants.CURRENT_DOG_WEIGHT = Constants.DEFAULT_DOG_WEIGHT
-                else:
-                    Constants.CURRENT_DOG_WEIGHT = 0
-
             elif event.key == pygame.K_7:
                 Constants.ALIGNMENT_FORCES = not Constants.ALIGNMENT_FORCES
-                if Constants.ALIGNMENT_FORCES:
-                    Constants.CURRENT_ALIGNMENT_WEIGHT = Constants.DEFAULT_ALIGNMENT_WEIGHT
-                else:
-                    Constants.CURRENT_ALIGNMENT_WEIGHT = 0
-
             elif event.key == pygame.K_8:
                 Constants.SEPARATION_FORCES = not Constants.SEPARATION_FORCES
-                if Constants.SEPARATION_FORCES:
-                    Constants.CURRENT_SEPARATION_WEIGHT = Constants.DEFAULT_SEPARATION_WEIGHT
-                else:
-                    Constants.CURRENT_SEPARATION_WEIGHT = 0
-
             elif event.key == pygame.K_9:
                 Constants.COHESION_FORCES = not Constants.COHESION_FORCES
-                if Constants.COHESION_FORCES:
-                    Constants.CURRENT_COHESION_WEIGHT = Constants.DEFAULT_COHESION_WEIGHT
-                else:
-                    Constants.CURRENT_COHESION_WEIGHT = 0
-
             elif event.key == pygame.K_0:
                 Constants.BOUNDARY_FORCES = not Constants.BOUNDARY_FORCES
-                if Constants.BOUNDARY_FORCES:
-                    Constants.CURRENT_BOUNDARY_WEIGHT = Constants.DEFAULT_BOUNDARY_WEIGHT
-                else:
-                    Constants.CURRENT_BOUNDARY_WEIGHT = 0
 
 
     # Update agents

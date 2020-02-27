@@ -40,7 +40,7 @@ class Agent:
         if Constants.VELOCITY_LINES:
             endX = self.center.x + (self.velocity.normalize().x * max(self.surface.get_height(), self.surface.get_width()))
             endY = self.center.y + (self.velocity.normalize().y * max(self.surface.get_height(), self.surface.get_width()))
-            pygame.draw.line(screen, Constants.BLUE, self.center.tuple(), (endX, endY), 3)
+            pygame.draw.line(screen, Constants.GREEN, self.center.tuple(), (endX, endY), 3)
 
     # Update the agent
     def update(self):

@@ -8,26 +8,26 @@ import pygame, random
 from Vector import Vector
 from Dog import Dog
 from Sheep import Sheep
-from Constants import *
+import Constants
 
 # Initiate program
 pygame.init()
-screen = pygame.display.set_mode((WORLD_WIDTH, WORLD_HEIGHT))
+screen = pygame.display.set_mode((Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT))
 done = False
 
 clock = pygame.time.Clock()     # Game clock
 
 # Dog data
-pos = Vector(DOG_START_X, DOG_START_Y)
+pos = Vector(Constants.DOG_START_X, Constants.DOG_START_Y)
 dogSurface = pygame.image.load('collie.png')
-dog = Dog(pos, DOG_WIDTH, DOG_HEIGHT, DOG_MOVE_SPEED, dogSurface)
+dog = Dog(pos, Constants.DOG_WIDTH, Constants.DOG_HEIGHT, Constants.DOG_MOVE_SPEED, dogSurface)
 
 # Sheep data
 sheeps = []
 sheepSurface = pygame.image.load('sheep.png')
 for i in range(10):
-    pos = Vector(random.randint(0, WORLD_WIDTH - SHEEP_WIDTH), random.randint(0, WORLD_HEIGHT - SHEEP_HEIGHT))
-    sheep = Sheep(pos, SHEEP_WIDTH, SHEEP_HEIGHT, SHEEP_MOVE_SPEED, sheepSurface)
+    pos = Vector(random.randint(0, Constants.WORLD_WIDTH - Constants.SHEEP_WIDTH), random.randint(0, Constants.WORLD_HEIGHT - Constants.SHEEP_HEIGHT))
+    sheep = Sheep(pos, Constants.SHEEP_WIDTH, Constants.SHEEP_HEIGHT, Constants.SHEEP_MOVE_SPEED, sheepSurface)
     sheeps.append(sheep)
 
 # Run in a loop
@@ -38,12 +38,36 @@ while not done:
         if event.type == pygame.QUIT:
             done = True
 
+        # Set toggles
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_1:
+                Constants.SHEEP_VELOCITY_LINES = not Constants.SHEEP_VELOCITY_LINES
+            elif event.key == pygame.K_2:
+                Constants.DOG_FORCE_LINES = not Constants.DOG_FORCE_LINES
+            elif event.key == pygame.K_3:
+                Constants.BOUNDARY_FORCE_LINES = not Constants.BOUNDARY_FORCE_LINES
+            elif event.key == pygame.K_4:
+                Constants.NEIGHBOR_LINES = not Constants.NEIGHBOR_LINES
+            elif event.key == pygame.K_5:
+                Constants.BOUNDING_BOXES = not Constants.BOUNDING_BOXES
+            elif event.key == pygame.K_6:
+                Constants.DOG_FORCES = not Constants.DOG_FORCES
+            elif event.key == pygame.K_7:
+                Constants.ALIGNMENT_FORCES = not Constants.ALIGNMENT_FORCES
+            elif event.key == pygame.K_8:
+                Constants.SEPARATION_FORCES = not Constants.SEPARATION_FORCES
+            elif event.key == pygame.K_9:
+                Constants.COHESION_FORCES = not Constants.COHESION_FORCES
+            elif event.key == pygame.K_0:
+                Constants.BOUNDARY_FORCES = not Constants.BOUNDARY_FORCES
+
+
     # Update agents
     dog.update()
     for sheep in sheeps:
         sheep.update(dog)
     # Draw background
-    screen.fill(BACKGROUND_COLOR)
+    screen.fill(Constants.BACKGROUND_COLOR)
 
     # Draw agents
     dog.draw(screen)
@@ -54,4 +78,4 @@ while not done:
     pygame.display.flip()
 
     # Tick clock at 60FPS
-    clock.tick(FRAME_RATE)
+    clock.tick(Constants.FRAME_RATE)

@@ -14,7 +14,7 @@ class Dog(Agent):
         if not pressed[pygame.K_w] and not pressed[pygame.K_s] and not pressed[pygame.K_a] and not pressed[pygame.K_d]:
             self.speed = 0
         else:
-            self.speed = DOG_MOVE_SPEED
+            self.speed = Constants.DOG_MOVE_SPEED
             self.velocity = Vector.zero()
             if pressed[pygame.K_w]: self.velocity.y -= 1
             if pressed[pygame.K_s]: self.velocity.y += 1

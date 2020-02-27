@@ -18,7 +18,7 @@ class Sheep(Agent):
         self.vectToPlayer = player.center - self.center
 
         # Set activity
-        if self.vectToPlayer.length() < SHEEP_ATTACK_RANGE:
+        if self.vectToPlayer.length() < Constants.SHEEP_ATTACK_RANGE:
             self.active = True
         else:
             self.active = False
@@ -34,7 +34,7 @@ class Sheep(Agent):
         self.target = player.center.tuple()
         if self.active:
             self.velocity = -self.vectToPlayer.normalize()
-            self.speed = SHEEP_MOVE_SPEED
+            self.speed = Constants.SHEEP_MOVE_SPEED
         else:
             self.speed = 0
 
@@ -43,7 +43,7 @@ class Sheep(Agent):
 
         # If following the player, draw attack line
         if self.active:
-            pygame.draw.line(screen, RED, self.center.tuple(), self.target, 3)
+            pygame.draw.line(screen, Constants.RED, self.center.tuple(), self.target, 3)
 
         # Call parent draw
         super().draw(screen)

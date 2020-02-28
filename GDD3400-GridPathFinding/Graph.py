@@ -38,11 +38,11 @@ class Graph(object):
 		self.path = []
 		self.toVisit = []
 		for node in self.nodes:
-			node.isVisited = False
+			node.setVisited(False)
 
 		# Identify the starting node as visited and add
 		# to the toVisit queue
-		self.start.isVisited = True
+		self.start.setVisited(True)
 		self.toVisit.append(self.start)
 
 		return
@@ -54,28 +54,26 @@ class Graph(object):
 		if len(self.toVisit) > 0:
 
 			# Look at first node in the queue
-			testNode = self.toVisit[0]
+			testNode = self.toVisit.pop(0)
 			testNode.setVisited(True)
+			print("Testing " + str(testNode.row) + "," + str(testNode.col))
 
-			# If the node is the end target
-			if testNode == self.end:
+			# Add neighbor nodes to to visit queue and set backpaths
+			for edge in testNode.neighborEdges:
+				neighborNode = edge.n2
 
-				# Backtrack through backpath until the start,
-				# adding each node along the way to the path
-				while testNode != 0:
-					self.path.insert(0, testNode)
-					testNode = testNode.backPath
+				# If neightbor is the end node
+				if neighborNode == self.end:
 
-			else:
-
-				# Add neighbor nodes to to visit queue and set backpaths
-				for edge in testNode.neighborEdges:
-					neighborNode = edge.n2
-					if not neighborNode.getVisited():
-						neighborNode.backPath = testNode
-						self.toVisit.append(neighborNode)
-
-			self.toVisit.pop(0)
+					# Backtrack through backpath until the start,
+					# adding each node along the way to the path
+					self.path.insert(0, neighborNode)
+					while testNode != 0:
+						self.path.insert(0, testNode)
+						testNode = testNode.backpath
+				elif neighborNode.getVisited() == False  and neighborNode not in self.toVisit:
+					neighborNode.backpath = testNode
+					self.toVisit.append(neighborNode)
 
 		return
 

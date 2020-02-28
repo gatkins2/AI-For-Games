@@ -6,6 +6,7 @@ class Node(object):
 		self.neighborEdges = []
 		self.isVisited = False
 		self.backpath = 0
+		self.distance = 0
 		return
 
 	# Add a neighborEdge to the node
@@ -21,6 +22,14 @@ class Node(object):
 	# Get the visited status
 	def getVisited(self):
 		return self.isVisited
+
+	# Set the node's distance from the start
+	def setDistance(self, distance):
+		self.distance = distance
+
+	# Get the node's distance from the start
+	def getDistance(self):
+		return self.distance
 
 	# Print the node's data for debugging
 	def print(self):

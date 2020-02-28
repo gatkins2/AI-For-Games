@@ -78,26 +78,36 @@ while not done:
     # Clear the background
     screen.fill(CORNFLOWER_BLUE)
 
-    # Get the keyboard to initiate a breadth-first search
-    if isSearching == False and pygame.key.get_pressed()[pygame.K_b] != 0:
-        for nodeRow in nodes:
-            for node in nodeRow:
-                node.reset()
+    # Get the keyboard to initiate a search
+    pressed = pygame.key.get_pressed()
+    if pressed[pygame.K_b] or pressed[pygame.K_d] or pressed[pygame.K_a] or pressed[pygame.K_e]:
+        if not isSearching:
+            for nodeRow in nodes:
+                for node in nodeRow:
+                    node.reset()
 
-        # Select 2 random points as start and goal
-        start = nodes[random.randint(0, numberRows - 1)][random.randint(0, numberCols - 1)]
-        end = nodes[random.randint(0, numberRows - 1)][random.randint(0, numberCols - 1)]
-        while start is end:
+            # Select 2 random points as start and goal
+            start = nodes[random.randint(0, numberRows - 1)][random.randint(0, numberCols - 1)]
             end = nodes[random.randint(0, numberRows - 1)][random.randint(0, numberCols - 1)]
+            while start is end:
+                end = nodes[random.randint(0, numberRows - 1)][random.randint(0, numberCols - 1)]
 
-        # Initialize the search
-        breadthGraph.setupSearch(start, end, SearchType.BREADTH)
-        isSearching = True
+            # Initialize the search
+            if pressed[pygame.K_b]:
+                breadthGraph.setupSearch(start, end, SearchType.BREADTH)
+            elif pressed[pygame.K_d]:
+                breadthGraph.setupSearch(start, end, SearchType.DJIKSTRA)
+            elif pressed[pygame.K_a]:
+                breadthGraph.setupSearch(start, end, SearchType.A_STAR)
+            else:  # pressed[pygame.K_e]
+                breadthGraph.setupSearch(start, end, SearchType.BEST)
 
-        # Set colors for start and goal nodes
-        start.color = GREEN
-        end.color = RED
-    else:
+            isSearching = True
+
+            # Set colors for start and goal nodes
+            start.color = GREEN
+            end.color = RED
+    elif isSearching:
         # If we have not yet found a path, take another step
         if len(breadthGraph.path) == 0:
             breadthGraph.update()

@@ -56,7 +56,6 @@ class Graph(object):
 			# Look at first node in the queue
 			testNode = self.toVisit.pop(0)
 			testNode.setVisited(True)
-			print("Testing " + str(testNode.row) + "," + str(testNode.col))
 
 			# Add neighbor nodes to to visit queue and set backpaths
 			for edge in testNode.neighborEdges:
@@ -79,7 +78,55 @@ class Graph(object):
 
 	# Perform a Djikstra's search, one step at a time
 	def RunDjikstraStep(self):
-		# TODO
+
+		# If toVisit queue is not empty
+		if len(self.toVisit) > 0:
+
+			# Look at first node in the queue
+			testNode = self.toVisit.pop(0)
+
+			# If node is the end node
+			if testNode == self.end:
+				while testNode != 0:
+					# Backtrack through backpath until the start,
+					# adding each node along the way to the path
+					self.path.insert(0, testNode)
+					testNode = testNode.backpath
+
+			else:
+				#testNode.setVisited(True)
+
+				# For each neighbor node
+				for edge in testNode.neighborEdges:
+					neighborNode = edge.n2
+
+					# If neighbor not visited
+					if not neighborNode.getVisited():
+						# Set visited
+						neighborNode.setVisited(True)
+
+						# Update distance
+						neighborNode.setDistance(testNode.getDistance() + edge.weight)
+
+						# Set parent pointer
+						neighborNode.backpath = testNode
+
+						# Add to queue
+						self.toVisit.append(neighborNode)
+
+					# If neighbor visited
+					else:
+						# If new distance is less than old distance
+						distance = testNode.getDistance() + edge.weight
+						if distance < neighborNode.getDistance():
+
+							# Update distance and back node
+							neighborNode.setDistance(distance)
+							neighborNode.backpath = testNode
+
+				# Sort the queue
+				self.toVisit.sort(key=lambda node:node.distance)
+
 		return
 
 	# Perform a Best-first search, one step at a time

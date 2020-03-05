@@ -5,15 +5,15 @@ BACKGROUND_COLOR = (100, 149, 237)
 
 GATE_COUNT = 4
 GATE_WIDTH = 100
-GATES = [ [ [104, 552], [104, 664] ], \
-	      [ [104, 216], [104, 104] ], \
-		  [ [808, 616], [696, 616] ], \
-		  [ [936, 152], [824, 152] ], \
-		  #[ [456, 440], [456, 328] ]  ]		# vertical, green is on bottom (backwards c)
-		  #[ [568, 328], [568, 440] ]  ]		# vertical, green is on top (c)
-		  [ [456, 328], [568, 328] ]  ]	# horizontal, green on left (u)
-		  #[ [568, 440], [456, 440] ]  ]	# horizontal, green on right (n)
-		  
+GATES = [[[104, 552], [104, 664]],
+         [[104, 216], [104, 104]],
+         [[808, 616], [696, 616]],
+         [[936, 152], [824, 152]],
+         # [ [456, 440], [456, 328] ]  ]		# vertical, green is on bottom (backwards c)
+         # [ [568, 328], [568, 440] ]  ]		# vertical, green is on top (c)
+         [[456, 328], [568, 328]]]  # horizontal, green on left (u)
+# [ [568, 440], [456, 440] ]  ]	# horizontal, green on right (n)
+
 NBR_RANDOM_OBSTACLES = 20
 
 DOG_HEIGHT = 32
@@ -53,3 +53,56 @@ DEBUG_NEIGHBOR_LINES = False
 
 # Graph Constants
 GRID_SIZE = 16
+
+# OLD CONSTANTS
+# Game config
+FRAME_RATE = 60
+WORLD_WIDTH = 1024
+WORLD_HEIGHT = 768
+BACKGROUND_COLOR = (100, 149, 237)
+
+# Colors
+RED = (255, 0, 0)
+YELLOW = (255, 255, 0)
+BLUE = (0, 0, 255)
+GREEN = (0, 255, 0)
+MAGENTA = (255, 0, 255)
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+
+# Dog data
+DOG_MOVE_SPEED = 5.5
+DOG_WIDTH = 16
+DOG_HEIGHT = 32
+
+# Sheep data
+SHEEP_ATTACK_RANGE = 200
+SHEEP_START_X = 100
+SHEEP_START_Y = 100
+SHEEP_MOVE_SPEED = 5
+SHEEP_WIDTH = 16
+SHEEP_HEIGHT = 32
+SHEEP_NEIGHBOR_RADIUS = 50
+SHEEP_BOUNDARY_RADIUS = 50
+
+# UI Toggles
+VELOCITY_LINES = True
+BOUNDING_BOXES = True
+ATTACK_LINES = True
+BOUNDARY_FORCE_LINES = True
+NEIGHBOR_LINES = True
+LINE_WIDTH = 2
+
+# Force Toggles
+DOG_FORCES = True
+ALIGNMENT_FORCES = True
+SEPARATION_FORCES = True
+COHESION_FORCES = True
+BOUNDARY_FORCES = True
+
+# Force Weights
+DOG_WEIGHT = 0.2
+ALIGNMENT_WEIGHT = 0.3
+SEPARATION_WEIGHT = 0.325
+COHESION_WEIGHT = 0.3
+BOUNDARY_WEIGHT = 0.2

@@ -7,9 +7,10 @@ import Constants
 class Agent:
 
     # Constructor
-    def __init__(self, position, speed, surface):
+    def __init__(self, position, speed, angularSpeed, surface):
         self.position = position
         self.speed = speed
+        self.angularSpeed = angularSpeed
         self.velocity = Vector(random.uniform(-1, 1), random.uniform(-1, 1))
         self.lookDirection = math.degrees(math.atan2(-self.velocity.y, self.velocity.x))
         self.startSurface = surface

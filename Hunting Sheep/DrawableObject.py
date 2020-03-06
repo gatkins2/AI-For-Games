@@ -30,6 +30,6 @@ class DrawableObject(object):
 			return False
 
 	def draw(self, screen):
-		if Constants.DEBUG_BOUNDING_RECTS:
-			pygame.draw.rect(screen, (0, 0, 0), self.boundingRect, Constants.DEBUG_LINE_WIDTH)
+		if Constants.BOUNDING_BOXES:
+			pygame.draw.rect(screen, (0, 0, 0), self.boundingRect, Constants.LINE_WIDTH)
 		screen.blit(self.surf, [self.upperLeft.x, self.upperLeft.y])

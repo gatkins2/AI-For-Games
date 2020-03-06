@@ -31,7 +31,7 @@ class Node(DrawableObject):
 		value = "N(" + str(self.x) + ", " + str(self.y) + ", " + str(self.center) + ", " + str(self.isVisited) \
 				+ ": " + str(self.costFromStart) + ", " + str(self.costToEnd) + ", " + str(self.cost) + ")"
 		# If this node has a backnode, add it to the string representation
-		if (self.backNode is not 0):
+		if (self.backNode is not None):
 			value += " b: " + str(self.backNode.x) + ", " + str(self.backNode.y)
 		return value
 
@@ -49,7 +49,7 @@ class Node(DrawableObject):
 		self.costFromStart = sys.maxsize
 		self.costToEnd = sys.maxsize
 		self.cost = sys.maxsize		# total cost
-		self.backNode = 0			# Node from which we explored this node
+		self.backNode = None			# Node from which we explored this node
 
 	def draw(self, screen):
 		""" Draw the node """
@@ -72,9 +72,9 @@ class Node(DrawableObject):
 
 		# Draw the boundary of the node (the grid lines)
 		if Constants.DEBUG_GRID_LINES:
-			pygame.draw.rect(screen, (0, 0, 0), rect, Constants.DEBUG_LINE_WIDTH)
+			pygame.draw.rect(screen, (0, 0, 0), rect, Constants.LINE_WIDTH)
 
 		# Draw the edges to each neighbor
-		if Constants.DEBUG_NEIGHBOR_LINES:
+		if Constants.NEIGHBOR_LINES:
 			for node in self.neighbors:
 				pygame.draw.line(screen, (0, 255, 0), (self.center.x, self.center.y), (node.center.x, node.center.y))

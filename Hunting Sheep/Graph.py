@@ -94,7 +94,7 @@ class Graph():
 		""" Go backwards through the graph reconstructing the path """
 		path = []
 		node = endNode
-		while node is not 0:
+		while node is not None:
 			node.isPath = True
 			path = [node] + path
 			node = node.backNode

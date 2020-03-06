@@ -35,7 +35,7 @@ class Sheep(Agent):
             pygame.draw.line(screen, Constants.RED, self.center.tuple(), self.target, Constants.LINE_WIDTH)
 
         # Draw lines to neighbors
-        if Constants.NEIGHBOR_LINES:
+        if Constants.SHEEP_NEIGHBOR_LINES:
             for sheep in self.neighbors:
                 pygame.draw.line(screen, Constants.BLUE, self.center.tuple(), sheep.center.tuple(), Constants.LINE_WIDTH)
 

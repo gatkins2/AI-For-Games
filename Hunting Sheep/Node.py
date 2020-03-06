@@ -75,6 +75,6 @@ class Node(DrawableObject):
 			pygame.draw.rect(screen, (0, 0, 0), rect, Constants.LINE_WIDTH)
 
 		# Draw the edges to each neighbor
-		if Constants.NEIGHBOR_LINES:
+		if Constants.GRID_NEIGHBOR_LINES:
 			for node in self.neighbors:
 				pygame.draw.line(screen, (0, 255, 0), (self.center.x, self.center.y), (node.center.x, node.center.y))

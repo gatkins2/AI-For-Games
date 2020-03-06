@@ -17,6 +17,7 @@ class Agent:
         self.surface = surface
         self.rect = surface.get_bounding_rect()
         self.center = Vector(position.x + (surface.get_width() / 2), position.y + (surface.get_height() / 2))
+        self.target = (0, 0)
 
     # Print
     def __str__(self):

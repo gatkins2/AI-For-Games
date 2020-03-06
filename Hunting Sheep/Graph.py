@@ -8,6 +8,7 @@ from Vector import *
 from Node import *
 from enum import Enum
 
+
 class SearchType(Enum):
 	DJIKSTRA = 1
 	A_STAR = 2
@@ -18,6 +19,7 @@ class Graph():
 		""" Initialize the Graph """
 		self.nodes = []			# Set of nodes
 		self.obstacles = []		# Set of obstacles - used for collision detection
+		self.searchType = SearchType.A_STAR		# Set initial search type to A*
 
 		# Initialize the size of the graph based on the world size
 		self.gridWidth = int(Constants.WORLD_WIDTH / Constants.GRID_SIZE)
@@ -89,6 +91,18 @@ class Graph():
 		for i in range(self.gridHeight):
 			for j in range(self.gridWidth):
 				self.nodes[i][j].reset()
+
+	def findPath(self, startPoint, endPoint):
+		start = self.getNodeFromPoint(startPoint)
+		end = self.getNodeFromPoint(endPoint)
+		if self.searchType == SearchType.A_STAR:
+			self.findPath_AStar(start, end)
+		elif self.searchType == SearchType.BEST_FIRST:
+			self.findPath_BestFirst(start, end)
+		elif self.searchType == SearchType.DJIKSTRA:
+			self.findPath_Djikstra(start, end)
+		else:	# search type == BREADTH_FIRST
+			self.findPath_Breadth(start, end)
 
 	def buildPath(self, endNode):
 		""" Go backwards through the graph reconstructing the path """

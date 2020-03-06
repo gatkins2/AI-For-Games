@@ -4,23 +4,24 @@ from Agent import *
 # Class to represent the player
 class Dog(Agent):
 
-    # Updates the player's position based on its velocity
-    def update(self):
+    # Constructor
+    def __init__(self, position, speed, angularSpeed, surface):
+        self.traversing = False
+        super().__init__(position, speed, angularSpeed, surface)
 
-        # Get key input
-        pressed = pygame.key.get_pressed()
+    # Update the dog's path and velocity
+    def update(self, graph, sheep):
 
-        # Check for movement
-        if not pressed[pygame.K_w] and not pressed[pygame.K_s] and not pressed[pygame.K_a] and not pressed[pygame.K_d]:
-            self.speed = 0
+        # If traversing path
+        if self.traversing:
+
+            # Adjust velocity to point to next path node
+            
+
+        # Find a new path
         else:
-            self.speed = Constants.DOG_MOVE_SPEED
-            self.velocity = Vector.zero()
-            if pressed[pygame.K_w]: self.velocity.y -= 1
-            if pressed[pygame.K_s]: self.velocity.y += 1
-            if pressed[pygame.K_a]: self.velocity.x -= 1
-            if pressed[pygame.K_d]: self.velocity.x += 1
-        self.velocity = self.velocity.normalize()
+            graph.reset()
+            graph.findPath(self.position, sheep.position)
 
         # Move
         super().update()

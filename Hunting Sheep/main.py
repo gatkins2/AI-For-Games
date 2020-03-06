@@ -84,6 +84,10 @@ bounds = Vector(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT)
 # Setup the graph
 graph = Graph()
 
+# Setup the gates and obstacles
+buildGates(graph)
+buildObstacles(graph)
+
 # Setup the dog
 pos = Vector(Constants.WORLD_WIDTH * .5, Constants.WORLD_HEIGHT * .5)
 dog = Dog(pos, Constants.DOG_MOVE_SPEED, Constants.DOG_ANGULAR_SPEED, dogImage)
@@ -93,10 +97,6 @@ herd = []
 pos = Vector(randrange(int(bounds.x * .4), int(bounds.x * .6)), randrange(int(bounds.y * .6), int(bounds.y * .8)))
 sheep = Sheep(pos, Constants.SHEEP_MOVE_SPEED, Constants.SHEEP_ANGULAR_SPEED, sheepImage)
 herd.append(sheep)
-
-# Setup the gates and obstacles
-buildGates(graph)
-buildObstacles(graph)
 
 # While the user has not selected quit
 hasQuit = False
@@ -112,7 +112,7 @@ while not hasQuit:
 
     # Update the agents onscreen
     # dog.update(bounds, graph, herd, Constants.GATES)
-    dog.update()
+    dog.update(graph, sheep)
     for sheep in herd:
         # sheep.update(bounds, graph, dog, herd, Constants.GATES)
         sheep.update(dog, herd)

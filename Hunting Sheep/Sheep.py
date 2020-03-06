@@ -8,7 +8,6 @@ class Sheep(Agent):
     def __init__(self, position, speed, angularSpeed, surface):
         super().__init__(position, speed, angularSpeed, surface)
         self.vectToPlayer = Vector.zero()
-        self.target = (0, 0)
         self.neighbors = []
 
     # Update the sheep

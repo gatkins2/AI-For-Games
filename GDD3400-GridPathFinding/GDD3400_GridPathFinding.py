@@ -18,8 +18,8 @@ def DrawGraph(screen, nodes):
     for nodeRow in nodes:
         for node in nodeRow:
             node.draw(screen)
-            for edge in node.neighborEdges:
-                edge.draw(screen)
+            # for edge in node.neighborEdges:
+            #     edge.draw(screen)
     return
 
 
@@ -120,4 +120,4 @@ while not done:
     DrawGraph(screen, nodes)
 
     pygame.display.flip()
-    clock.tick(60)
+    # clock.tick(60)

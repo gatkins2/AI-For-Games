@@ -26,6 +26,12 @@ class Dog(Agent):
                 # Pop node off
                 graph.backPath.pop(0)
 
+            # If not on the first node
+            else:
+
+                # Set velocity to point toward first node
+                self.velocity = (graph.backPath[0].center - self.position).normalize()
+
         # Find a new path
         else:
             graph.findPath(self.position, sheep.position)

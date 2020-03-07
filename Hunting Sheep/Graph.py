@@ -13,6 +13,7 @@ class SearchType(Enum):
 	DJIKSTRA = 1
 	A_STAR = 2
 	BEST_FIRST = 3
+	BREADTH_FIRST = 4
 
 class Graph():
 	def __init__(self):
@@ -21,6 +22,7 @@ class Graph():
 		self.obstacles = []		# Set of obstacles - used for collision detection
 		self.searchType = SearchType.A_STAR		# Set initial search type to A*
 		self.backPath = []		# Initialize empty back path
+		self.toVisit = []		# Queue of nodes to visit
 
 		# Initialize the size of the graph based on the world size
 		self.gridWidth = int(Constants.WORLD_WIDTH / Constants.GRID_SIZE)
@@ -92,10 +94,23 @@ class Graph():
 		for i in range(self.gridHeight):
 			for j in range(self.gridWidth):
 				self.nodes[i][j].reset()
+		self.backPath = []
+		self.toVisit = []
 
 	def findPath(self, startPoint, endPoint):
+
+		self.reset()
+
+		# Set start and end nodes
 		start = self.getNodeFromPoint(startPoint)
 		end = self.getNodeFromPoint(endPoint)
+
+		# Add start node to toVisit and set to visited
+		self.toVisit.append(start)
+		start.isVisited = True
+		start.isStart = True
+
+		# Run search
 		if self.searchType == SearchType.A_STAR:
 			self.findPath_AStar(start, end)
 		elif self.searchType == SearchType.BEST_FIRST:
@@ -124,12 +139,33 @@ class Graph():
 
 	def findPath_Breadth(self, start, end):
 		""" Breadth Search """
-		print("BREADTH-FIRST")
-		self.reset()
 
-		# TODO: Add your breadth-first code here!
+		# If toVisit queue is not empty
+		while len(self.toVisit) > 0:
 
-		return []
+			# Look at first node in the queue
+			testNode = self.toVisit.pop(0)
+			testNode.isExplored = True
+
+			# Add neighbor nodes to to visit queue and set backpaths
+			for node in testNode.neighbors:
+
+				# If neighbor node has not been visited or is not in queue
+				if not node.isVisited and node not in self.toVisit:
+
+					# Set back node and add to queue
+					node.backNode = testNode
+					self.toVisit.append(node)
+					node.isVisited = True
+
+				# If neighbor is the end node
+				elif node == end:
+
+					node.isEnd = True
+					# Set back node and build the backpath
+					node.backNode = testNode
+					self.backPath = self.buildPath(node)
+					return
 
 	def findPath_Djikstra(self, start, end):
 		""" Djikstra's Search """

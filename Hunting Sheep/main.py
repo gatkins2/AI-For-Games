@@ -7,7 +7,7 @@ HW - Hunting Sheep
 import pygame
 from random import *
 import Constants
-from Graph import Graph
+from Graph import *
 from Node import Node
 from Vector import Vector
 from Sheep import Sheep
@@ -109,6 +109,17 @@ while not hasQuit:
         if event.type == pygame.QUIT \
                 or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
             hasQuit = True
+
+        # Change graph search type
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_a:
+                graph.searchType = SearchType.A_STAR
+            elif event.key == pygame.K_s:
+                graph.searchType = SearchType.BEST_FIRST
+            elif event.key == pygame.K_d:
+                graph.searchType = SearchType.DJIKSTRA
+            elif event.key == pygame.K_f:
+                graph.searchType = SearchType.BREADTH_FIRST
 
     # Update the agents onscreen
     # dog.update(bounds, graph, herd, Constants.GATES)

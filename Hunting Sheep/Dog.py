@@ -6,21 +6,28 @@ class Dog(Agent):
 
     # Constructor
     def __init__(self, position, speed, angularSpeed, surface):
-        self.traversing = False
         super().__init__(position, speed, angularSpeed, surface)
 
     # Update the dog's path and velocity
     def update(self, graph, sheep):
 
-        # If traversing path
-        if self.traversing:
+        # If back path exists
+        if len(graph.backPath) > 0:
 
-            # Adjust velocity to point to next path node
-            
+            # If on the first node in back path
+            if graph.getNodeFromPoint(self.position) == graph.backPath[0]:
+
+                # If not at the end of the path
+                if len(graph.backPath) > 1:
+
+                    # Set velocity to point toward next path node
+                    self.velocity = (graph.backPath[1].center - self.position).normalize()
+
+                # Pop node off
+                graph.backPath.pop(0)
 
         # Find a new path
         else:
-            graph.reset()
             graph.findPath(self.position, sheep.position)
 
         # Move

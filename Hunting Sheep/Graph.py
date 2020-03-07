@@ -20,6 +20,7 @@ class Graph():
 		self.nodes = []			# Set of nodes
 		self.obstacles = []		# Set of obstacles - used for collision detection
 		self.searchType = SearchType.A_STAR		# Set initial search type to A*
+		self.backPath = []		# Initialize empty back path
 
 		# Initialize the size of the graph based on the world size
 		self.gridWidth = int(Constants.WORLD_WIDTH / Constants.GRID_SIZE)

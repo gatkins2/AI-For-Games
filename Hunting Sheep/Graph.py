@@ -110,6 +110,13 @@ class Graph():
 		start.isVisited = True
 		start.isStart = True
 
+		# Set start cost to 0
+		start.cost = 0
+		start.costFromStart = 0
+
+		# Estimate cost to end from start (best and A*)
+		start.costToEnd = (end.center - start.center).length()
+
 		# Run search
 		if self.searchType == SearchType.A_STAR:
 			self.findPath_AStar(start, end)
@@ -169,12 +176,50 @@ class Graph():
 
 	def findPath_Djikstra(self, start, end):
 		""" Djikstra's Search """
-		print("DJIKSTRA")
-		self.reset()		
 
-		# TODO: Add your Djikstra code here!
+		# If toVisit queue is not empty
+		while len(self.toVisit) > 0:
 
-		return []
+			# Look at first node in the queue
+			testNode = self.toVisit.pop(0)
+			testNode.isExplored = True
+
+			# If node is the end node
+			if testNode == end:
+
+				# Build back path
+				self.buildPath(testNode)
+
+			else:
+
+				# For each neighbor node
+				for node in testNode.neighbors:
+
+					# If neighbor not visited
+					if not node.isVisited:
+						# Set visited
+						node.isVisited = True
+
+						# Update cost
+						node.costFromStart
+
+						# Set parent pointer
+						neighborNode.backpath = testNode
+
+						# Add to queue
+						self.toVisit.append(neighborNode)
+
+					# If neighbor visited
+					else:
+						# If new distance is less than old distance
+						distance = testNode.getDistance() + edge.weight
+						if distance < neighborNode.getDistance():
+							# Update distance and back node
+							neighborNode.setDistance(distance)
+							neighborNode.backpath = testNode
+
+				# Sort the queue
+				self.toVisit.sort(key=lambda node: node.distance)
 
 	def findPath_AStar(self, start, end):
 		""" A Star Search """

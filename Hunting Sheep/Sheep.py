@@ -77,7 +77,9 @@ class Sheep(Agent):
 
         # Normalize and set velocity
         if forces.length() != 0:
-            self.velocity = forces.normalize()
+            idealVelocity = forces.normalize()
+            self.velocity = self.velocity.scale(1 - Constants.SHEEP_ANGULAR_SPEED) + idealVelocity.scale(
+                Constants.SHEEP_ANGULAR_SPEED)
 
     # Find sheep that are neighbors to this one
     def calculateNeighbors(self, herd):

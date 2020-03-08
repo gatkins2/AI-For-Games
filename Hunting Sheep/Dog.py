@@ -21,7 +21,9 @@ class Dog(Agent):
                 if len(graph.backPath) > 1:
 
                     # Set velocity to point toward next path node
-                    self.velocity = (graph.backPath[1].center - self.center).normalize()
+                    idealVelocity = (graph.backPath[1].center - self.center).normalize()
+                    self.velocity = self.velocity.scale(1 - Constants.DOG_ANGULAR_SPEED) + idealVelocity.scale(
+                        Constants.DOG_ANGULAR_SPEED)
 
                 # Pop node off
                 graph.backPath.pop(0)
@@ -30,7 +32,9 @@ class Dog(Agent):
             else:
 
                 # Set velocity to point toward first node
-                self.velocity = (graph.backPath[0].center - self.center).normalize()
+                idealVelocity = (graph.backPath[0].center - self.center).normalize()
+                self.velocity = self.velocity.scale(1 - Constants.DOG_ANGULAR_SPEED) + idealVelocity.scale(
+                    Constants.DOG_ANGULAR_SPEED)
 
         # Find a new path
         else:

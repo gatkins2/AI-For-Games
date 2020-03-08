@@ -80,9 +80,9 @@ class Agent:
             self.position.y = Constants.WORLD_HEIGHT - self.surface.get_height()
 
     # Check collision with another agent
-    def collision(self, other):
+    def collision(self, otherRect):
 
-        if self.rect.colliderect(other.rect):
+        if self.rect.colliderect(otherRect):
             return True
         else:
             return False

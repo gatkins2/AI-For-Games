@@ -126,7 +126,7 @@ while not hasQuit:
     dog.update(graph, sheep)
     for sheep in herd:
         # sheep.update(bounds, graph, dog, herd, Constants.GATES)
-        sheep.update(dog, herd)
+        sheep.update(dog, herd, graph.obstacles)
 
     # Draw the agents onscreen
     graph.draw(screen)

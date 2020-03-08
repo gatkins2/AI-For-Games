@@ -9,9 +9,11 @@ class Sheep(Agent):
         super().__init__(position, speed, angularSpeed, surface)
         self.vectToPlayer = Vector.zero()
         self.neighbors = []
+        self.nearestBoundary = None
+        self.obstaclesInRange = []
 
     # Update the sheep
-    def update(self, player, herd):
+    def update(self, player, herd, obstacles):
 
         # Calculate the distance to the player
         self.vectToPlayer = player.center - self.center
@@ -21,7 +23,7 @@ class Sheep(Agent):
         self.neighbors = self.calculateNeighbors(herd)
 
         # Set velocity
-        self.calculateVelocity(player)
+        self.calculateVelocity(player, obstacles)
 
         # Move
         super().update()
@@ -38,11 +40,21 @@ class Sheep(Agent):
             for sheep in self.neighbors:
                 pygame.draw.line(screen, Constants.BLUE, self.center.tuple(), sheep.center.tuple(), Constants.LINE_WIDTH)
 
+        # Draw line to nearest boundary
+        if Constants.BOUNDARY_FORCE_LINES:
+            if self.nearestBoundary is not None:
+                pygame.draw.line(screen, Constants.MAGENTA, self.center.tuple(), self.nearestBoundary.tuple(), Constants.LINE_WIDTH)
+
+        # Draw lines to obstacles
+        if Constants.OBSTACLE_FORCES:
+            for obstacle in self.obstaclesInRange:
+                pygame.draw.line(screen, Constants.WHITE, self.center.tuple(), obstacle.center.tuple(), Constants.LINE_WIDTH)
+
         # Call parent draw
         super().draw(screen)
 
     # Calculate sheep velocity
-    def calculateVelocity(self, player):
+    def calculateVelocity(self, player, obstacles):
 
         # Get forces
         alignment = cohesion = separation = boundaries = dog = Vector.zero()
@@ -50,14 +62,18 @@ class Sheep(Agent):
         if Constants.COHESION_FORCES: cohesion = self.getCohesionForce()
         if Constants.SEPARATION_FORCES: separation = self.getSeparationForce()
         if Constants.BOUNDARY_FORCES: boundaries = self.getBoundaryForce()
+        else: self.nearestBoundary = None
         if Constants.DOG_FORCES: dog = self.getDogForce(player)
+        if Constants.OBSTACLE_FORCES: obstacles = self.getObstacleForce(obstacles)
+        else: self.obstaclesInRange = []
 
         # Sum forces
         forces = alignment.scale(Constants.ALIGNMENT_WEIGHT) \
                  + cohesion.scale(Constants.COHESION_WEIGHT) \
                  + separation.scale(Constants.SEPARATION_WEIGHT) \
                  + boundaries.scale(Constants.BOUNDARY_WEIGHT) \
-                 + dog.scale(Constants.DOG_WEIGHT)
+                 + dog.scale(Constants.DOG_WEIGHT) \
+                 + obstacles.scale(Constants.OBSTACLE_WEIGHT)
 
         # Normalize and set velocity
         if forces.length() != 0:
@@ -135,18 +151,29 @@ class Sheep(Agent):
     def getBoundaryForce(self):
 
         velocity = Vector.zero()
+        nearestBoundVect = None
 
         # Top/bottom boundary
         if self.center.y - Constants.SHEEP_BOUNDARY_RADIUS <= 0:
             velocity.y = 1
+            nearestBoundVect = Vector(0, -self.center.y)
         elif self.center.y + Constants.SHEEP_BOUNDARY_RADIUS >= Constants.WORLD_HEIGHT:
             velocity.y = -1
+            nearestBoundVect = Vector(0, self.center.y)
 
         # Left/right boundary
         if self.center.x - Constants.SHEEP_BOUNDARY_RADIUS <= 0:
             velocity.x = 1
+            nearestBoundVect = Vector(-self.center.x, 0)
         elif self.center.x + Constants.SHEEP_BOUNDARY_RADIUS >= Constants.WORLD_WIDTH:
             velocity.x = -1
+            nearestBoundVect = Vector(self.center.x, 0)
+
+        # Set nearest boundary point
+        if nearestBoundVect is not None:
+            self.nearestBoundary = self.center + nearestBoundVect
+        else:
+            self.nearestBoundary = None
 
         return velocity.normalize()
 
@@ -158,3 +185,21 @@ class Sheep(Agent):
             velocity = -self.vectToPlayer.normalize()
 
         return velocity
+
+    # Calculate sheep's obstacle force
+    def getObstacleForce(self, obstacles):
+
+        velocity = Vector.zero()
+        self.obstaclesInRange = []
+        for obstacle in obstacles:
+
+            # If obstacle in radius
+            if (obstacle.center - self.center).length() < Constants.SHEEP_OBSTACLE_RADIUS:
+
+                # Add to velocity calculation
+                velocity += (self.center - obstacle.center)
+
+                # Add to obstacles in range
+                self.obstaclesInRange.append(obstacle)
+
+        return velocity.normalize()

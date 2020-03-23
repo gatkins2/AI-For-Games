@@ -124,7 +124,7 @@ class Graph():
 
 		return []
 
-	def findPath_AStar(self, startPoint, endPoint):
+	def findPath_AStar(self, startPoint, endPoint, sheep=None):
 		""" A Star Search """
 		self.reset()
 
@@ -163,32 +163,35 @@ class Graph():
 				# For each neighbor node
 				for node in testNode.neighbors:
 
-					# If neighbor not visited
-					if not node.isVisited:
-						# Set visited
-						node.isVisited = True
+					# Ignore blocks in sheep radius
+					if sheep is None or (sheep.center - node.center).length() > Constants.SHEEP_MIN_FLEE_DIST:
 
-						# Update cost
-						node.costFromStart = testNode.costFromStart + (node.center - testNode.center).length()
-						node.costToEnd = (end.center - node.center).length()
-						node.cost = node.costFromStart + node.costToEnd
+						# If neighbor not visited
+						if not node.isVisited:
+							# Set visited
+							node.isVisited = True
 
-						# Set parent pointer
-						node.backNode = testNode
+							# Update cost
+							node.costFromStart = testNode.costFromStart + (node.center - testNode.center).length()
+							node.costToEnd = (end.center - node.center).length()
+							node.cost = node.costFromStart + node.costToEnd
 
-						# Add to queue
-						self.toVisit.append(node)
-
-					# If neighbor visited
-					else:
-						# If new cost is less than old distance
-						newCostFromStart = testNode.costFromStart + (node.center - testNode.center).length()
-						newCost = newCostFromStart + node.costToEnd
-						if newCost < node.cost:
-							# Update cost and back node
-							node.costFromStart = newCostFromStart
-							node.cost = newCost
+							# Set parent pointer
 							node.backNode = testNode
+
+							# Add to queue
+							self.toVisit.append(node)
+
+						# If neighbor visited
+						else:
+							# If new cost is less than old distance
+							newCostFromStart = testNode.costFromStart + (node.center - testNode.center).length()
+							newCost = newCostFromStart + node.costToEnd
+							if newCost < node.cost:
+								# Update cost and back node
+								node.costFromStart = newCostFromStart
+								node.cost = newCost
+								node.backNode = testNode
 
 				# Sort the queue
 				self.toVisit.sort(key=lambda node: node.cost)

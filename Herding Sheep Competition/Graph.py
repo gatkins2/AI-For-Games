@@ -13,6 +13,7 @@ class Graph():
 		""" Initialize the Graph """
 		self.nodes = []			# Set of nodes
 		self.obstacles = []		# Set of obstacles - used for collision detection
+		self.toVisit = []		# To visit queue
 
 		# Initialize the size of the graph based on the world size
 		self.gridWidth = int(Constants.WORLD_WIDTH / Constants.GRID_SIZE)
@@ -88,6 +89,7 @@ class Graph():
 		for i in range(self.gridHeight):
 			for j in range(self.gridWidth):
 				self.nodes[i][j].reset()
+		self.toVisit = []
 
 	def buildPath(self, endNode):
 		""" Go backwards through the graph reconstructing the path """
@@ -122,13 +124,74 @@ class Graph():
 
 		return []
 
-	def findPath_AStar(self, start, end):
+	def findPath_AStar(self, startPoint, endPoint):
 		""" A Star Search """
 		self.reset()
 
-		# TODO: Put your code here
+		# Set start and end nodes
+		start = self.getNodeFromPoint(startPoint)
+		end = self.getNodeFromPoint(endPoint)
 
-		return []
+		# Add start node to toVisit and set to visited
+		self.toVisit.append(start)
+		start.isVisited = True
+		start.isStart = True
+
+		# Set start cost to 0
+		start.costFromStart = 0
+
+		# Estimate cost to end from start
+		start.costToEnd = (end.center - start.center).length()
+		start.cost = start.costFromStart + start.costToEnd
+
+		# If toVisit queue is not empty
+		while len(self.toVisit) > 0:
+
+			# Look at first node in the queue
+			testNode = self.toVisit.pop(0)
+			testNode.isExplored = True
+
+			# If node is the end node
+			if testNode == end:
+				testNode.isEnd = True
+
+				# Build back path
+				return self.buildPath(testNode)
+
+			else:
+
+				# For each neighbor node
+				for node in testNode.neighbors:
+
+					# If neighbor not visited
+					if not node.isVisited:
+						# Set visited
+						node.isVisited = True
+
+						# Update cost
+						node.costFromStart = testNode.costFromStart + (node.center - testNode.center).length()
+						node.costToEnd = (end.center - node.center).length()
+						node.cost = node.costFromStart + node.costToEnd
+
+						# Set parent pointer
+						node.backNode = testNode
+
+						# Add to queue
+						self.toVisit.append(node)
+
+					# If neighbor visited
+					else:
+						# If new cost is less than old distance
+						newCostFromStart = testNode.costFromStart + (node.center - testNode.center).length()
+						newCost = newCostFromStart + node.costToEnd
+						if newCost < node.cost:
+							# Update cost and back node
+							node.costFromStart = newCostFromStart
+							node.cost = newCost
+							node.backNode = testNode
+
+				# Sort the queue
+				self.toVisit.sort(key=lambda node: node.cost)
 
 	def findPath_BestFirst(self, start, end):
 		""" Best First Search """

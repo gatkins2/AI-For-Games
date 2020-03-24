@@ -2,6 +2,7 @@ import math
 
 from math import sqrt
 
+
 class Vector:
 	def __init__(self, x, y):
 		self.x = x
@@ -10,11 +11,17 @@ class Vector:
 	def __str__(self):
 		return 'Vector (%f, %f)' % (self.x, self.y)
 
-	def __add__(self,other):
+	def __add__(self, other):
 		return Vector(self.x + other.x, self.y + other.y)
 
-	def __sub__(self,other):
+	def __sub__(self, other):
 		return Vector(self.x - other.x, self.y - other.y)
+
+	def __eq__(self, other):
+		return self.x == other.x and self.y == other.y
+
+	def __ne__(self, other):
+		return not self.__eq__(other)
 
 	def dot(self, other):
 		return self.x * other.x + self.y * other.y
@@ -33,4 +40,4 @@ class Vector:
 			return Vector(self.x, self.y)
 
 	def lerp(self, end, percent):
-		 return self + (end - self).scale(percent)
+		return self + (end - self).scale(percent)

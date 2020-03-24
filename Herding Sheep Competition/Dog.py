@@ -18,8 +18,9 @@ class Dog(Agent):
         self.gateNumber = 0
         self.isFollowingPath = False
         self.path = []
-        self.stateMachine = StateMachine(FindSheepState())
+        self.stateMachine = StateMachine(FindSheep())
         self.targetSheep = None
+        self.sheepLastLocation = Vector(0, 0)
 
     def setTargetSheep(self, sheep):
         """ Set the sheep that the dog is currently targetting """
@@ -33,19 +34,12 @@ class Dog(Agent):
         """ Get the length of the dog's current path, if zero, the dog doesn't have a path """
         return len(self.path)
 
-    def calculatePathToNewTarget(self, target):
+    def calculatePathToNewTarget(self, target, sheep=None):
         """ Calculate the path to the new target """
-        if self.searchType == SearchType.BREADTH:
-            self.path = self.graph.findPath_Breadth(self.center, target)
-        elif self.searchType == SearchType.DJIKSTRA:
-            self.path = self.graph.findPath_Dijkstra(self.center, target)
-        elif self.searchType == SearchType.BEST:
-            self.path = self.graph.findPath_BestFirst(self.center, target)
-        elif self.searchType == SearchType.A_STAR:
-            self.path = self.graph.findPath_AStar(self.center, target)
+        self.path = self.graph.findPath_AStar(self.center, target, sheep)
 
         # If the path exists, head toward the first node in the path
-        if len(self.path) > 0:
+        if self.path is not None and len(self.path) > 0:
             self.isFollowingPath = True
             self.target = self.path.pop(0).center
             self.speed = self.maxSpeed
@@ -73,7 +67,7 @@ class Dog(Agent):
             # if we've arrived at the first location in the path
             if (vectorToTarget).length() <= Constants.GRID_SIZE * .5:
                 # Go to next position in path, if there is one
-                if len(self.path) > 0:
+                if self.path is not None and len(self.path) > 0:
                     self.target = self.path.pop(0).center
                 # Stop following the path if it is empty
                 else:

@@ -85,7 +85,7 @@ pygame.init()
 
 # Comment-in this line if you want to test on the same exact configuration of
 # objects as the last time.  Change the number to test out some variations
-# random.seed(100)
+#random.seed(100)
 
 # Set up the visual world
 screen = pygame.display.set_mode((WORLD_WIDTH, WORLD_HEIGHT))

@@ -94,26 +94,26 @@ class CheckSheepZone(State):
 		# If sheep is above entrance
 		if sheep.center.y < entranceCenter.y:
 			# Move sheep toward entrance
-			targetPoint = sheep.center + (sheep.center - entranceCenter).normalize().scale(
+			targetPoint = sheep.center - ((entranceCenter - sheep.center).normalize() - sheep.velocity.scale(0.5)).normalize().scale(
 				SHEEP_MIN_FLEE_DIST + GRID_SIZE)
 
 		# If sheep is below and to the side of the entrance
 		elif sheep.center.y >= entranceCenter.y - (4 * GRID_SIZE) and \
 				not gameState.getPenBounds()[0].collidepoint(sheep.center.x, entranceCenter.y):
 			# Move sheep up
-			targetPoint = sheep.center + Vector(0, 1).scale(SHEEP_MIN_FLEE_DIST + GRID_SIZE)
+			targetPoint = sheep.center - (Vector(0, -1) - sheep.velocity.scale(0.5)).normalize().scale(SHEEP_MIN_FLEE_DIST + GRID_SIZE)
 
 		# If sheep is directly below entrance
 		else:
 			# If sheep is below and to the right
 			if sheep.center.x > gameState.getPenBounds()[0].centerx:
 				# Move sheep right
-				targetPoint = sheep.center + Vector(-1, 0).scale(SHEEP_MIN_FLEE_DIST + GRID_SIZE)
+				targetPoint = sheep.center - (Vector(1, 0) - sheep.velocity.scale(0.5)).normalize().scale(SHEEP_MIN_FLEE_DIST + GRID_SIZE)
 
 			# If sheep is below and to the left
 			else:
 				# Move sheep left
-				targetPoint = sheep.center + Vector(1, 0).scale(SHEEP_MIN_FLEE_DIST + GRID_SIZE)
+				targetPoint = sheep.center - (Vector(-1, 0) - sheep.velocity.scale(0.5)).normalize().scale(SHEEP_MIN_FLEE_DIST + GRID_SIZE)
 
 		# Clamp target point in bounds and avoid obstacles
 		targetToSheepDirection = (sheep.center - targetPoint).normalize()
@@ -123,7 +123,7 @@ class CheckSheepZone(State):
 
 		# If dog to sheep vector is close to target to sheep vector
 		dogToSheepDirection = (sheep.center - dog.center).normalize()
-		if math.degrees(math.acos(targetToSheepDirection.dot(dogToSheepDirection) / (targetToSheepDirection.length() * dogToSheepDirection.length()))) <= 20:
+		if math.degrees(math.acos(targetToSheepDirection.dot(dogToSheepDirection) / (targetToSheepDirection.length() * dogToSheepDirection.length()))) <= 10:
 			# Begin chasing sheep
 			return ChaseSheep()
 

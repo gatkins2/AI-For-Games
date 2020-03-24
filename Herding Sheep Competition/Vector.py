@@ -17,6 +17,9 @@ class Vector:
 	def __sub__(self, other):
 		return Vector(self.x - other.x, self.y - other.y)
 
+	def __neg__(self):
+		return Vector(-self.x, -self.y)
+
 	def __eq__(self, other):
 		return self.x == other.x and self.y == other.y
 

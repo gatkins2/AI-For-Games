@@ -92,13 +92,13 @@ class CheckSheepZone(State):
 		worldBoundsRect = pygame.Rect(0, 0, gameState.getWorldBounds().x, gameState.getWorldBounds().y)
 
 		# If sheep is above entrance
-		if entranceCenter.y > sheep.center.y:
+		if sheep.center.y < entranceCenter.y:
 			# Move sheep toward entrance
 			targetPoint = sheep.center + (sheep.center - entranceCenter).normalize().scale(
 				SHEEP_MIN_FLEE_DIST + GRID_SIZE)
 
 		# If sheep is below and to the side of the entrance
-		elif entranceCenter.y <= sheep.center.y and \
+		elif sheep.center.y >= entranceCenter.y - (4 * GRID_SIZE) and \
 				not gameState.getPenBounds()[0].collidepoint(sheep.center.x, entranceCenter.y):
 			# Move sheep up
 			targetPoint = sheep.center + Vector(0, 1).scale(SHEEP_MIN_FLEE_DIST + GRID_SIZE)
@@ -116,14 +116,16 @@ class CheckSheepZone(State):
 				targetPoint = sheep.center + Vector(1, 0).scale(SHEEP_MIN_FLEE_DIST + GRID_SIZE)
 
 		# Clamp target point in bounds and avoid obstacles
-		while not worldBoundsRect.collidepoint(targetPoint.x, targetPoint.y):
-			targetPoint += (sheep.center - targetPoint).normalize().scale(GRID_SIZE)
-		while not gameState.getGraph().getNodeFromPoint(targetPoint).isWalkable:
-			# If moving away would put target out of bounds, move closer
-			oldPoint = targetPoint
-			targetPoint -= (sheep.center - targetPoint).normalize().scale(GRID_SIZE)
-			if not worldBoundsRect.collidepoint(targetPoint.x, targetPoint.y):
-				targetPoint = oldPoint + (sheep.center - targetPoint).normalize().scale(GRID_SIZE)
+		targetToSheepDirection = (sheep.center - targetPoint).normalize()
+		while not worldBoundsRect.collidepoint(targetPoint.x, targetPoint.y) or \
+				not gameState.getGraph().getNodeFromPoint(targetPoint).isWalkable:
+			targetPoint += targetToSheepDirection.scale(GRID_SIZE)
+
+		# If dog to sheep vector is close to target to sheep vector
+		dogToSheepDirection = (sheep.center - dog.center).normalize()
+		if math.degrees(math.acos(targetToSheepDirection.dot(dogToSheepDirection) / (targetToSheepDirection.length() * dogToSheepDirection.length()))) <= 20:
+			# Begin chasing sheep
+			return ChaseSheep()
 
 		# Set dog path
 		# If target and dog are not in sheep radius
@@ -186,13 +188,3 @@ class ChaseSheep(State):
 
 		# Continue in state
 		return self
-
-
-class Idle(State):
-	""" This is an idle state where the dog does nothing """
-
-	def update(self, gameState):
-		super().update(gameState)
-
-		# Do nothing
-		return Idle()
